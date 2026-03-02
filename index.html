@@ -3,40 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro Timer</title>
+    <title>Ignite Algs | All-In-One</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="header-controls">
-                <select id="event-select" class="custom-select">
-                    <option value="333">3x3x3</option>
-                    <option value="222">2x2x2</option>
-                    <option value="444">4x4x4</option>
-                    <option value="pyram">Pyraminx</option>
-                </select>
-                <button id="clear-btn" class="secondary-btn">Clear Session</button>
-            </div>
-            <div id="scramble">Generating...</div>
+            <div class="logo" onclick="showHome()">IGNITE<span>ALGS</span></div>
+            <p id="view-title">Algorithm Library</p>
         </header>
 
-        <main id="timer-area">
-            <div id="timer">0.00</div>
-            <div class="status-bar">
-                <span id="storage-status">● Storage: Local</span>
+        <section id="home-view" class="grid-container">
+            <div class="alg-tile" onclick="openSet('pll')">
+                <div class="tile-top">21 CASES</div>
+                <h2>PLL</h2>
+                <p>Permutation of Last Layer</p>
             </div>
-        </main>
+            <div class="alg-tile" onclick="openSet('oll')">
+                <div class="tile-top">57 CASES</div>
+                <h2>OLL</h2>
+                <p>Orientation of Last Layer</p>
+            </div>
+            <div class="alg-tile" onclick="openSet('f2l')">
+                <div class="tile-top">41 CASES</div>
+                <h2>F2L</h2>
+                <p>First Two Layers</p>
+            </div>
+            <div class="alg-tile inactive">
+                <div class="tile-top">COMING SOON</div>
+                <h2>COLL</h2>
+                <p>Corners & Orientation</p>
+            </div>
+        </section>
 
-        <aside class="stats-panel">
-            <h3>Solves</h3>
-            <div id="solve-list"></div>
-            <div class="averages">
-                <p>Ao5: <span id="ao5">N/A</span></p>
-                <p>Ao12: <span id="ao12">N/A</span></p>
-            </div>
-        </aside>
+        <section id="set-view" class="hidden">
+            <button class="back-btn" onclick="showHome()">← Back to Library</button>
+            <div id="alg-full-list" class="full-list">
+                </div>
+        </section>
     </div>
-    <script src="./script.js"></script>
+
+    <script src="script.js"></script>
 </body>
 </html>
