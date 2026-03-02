@@ -1,34 +1,68 @@
 :root {
-    --bg: #0a0a0a;
-    --tile: #141414;
-    --accent: #FF8C00;
-    --text: #ffffff;
-    --muted: #888;
-    --border: #222;
+    --bg: #050505;
+    --surface: #121212;
+    --surface-hover: #1a1a1a;
+    --accent: #ff8c00;
+    --accent-glow: rgba(255, 140, 0, 0.2);
+    --text-main: #ffffff;
+    --text-dim: #a0a0a0;
+    --border: #282828;
+    --font-main: 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
 }
 
-body, html {
-    margin: 0; padding: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    scroll-behavior: smooth;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.container { padding: 40px; max-width: 1200px; margin: 0 auto; }
+body {
+    background-color: var(--bg);
+    color: var(--text-main);
+    font-family: var(--font-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
 
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- Header & Logo --- */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 60px;
+    padding: 20px 0;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--border);
 }
 
-.logo { font-weight: 800; font-size: 1.5rem; cursor: pointer; }
-.logo span { color: var(--accent); }
-#view-title { color: var(--muted); letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; }
+.logo {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -1px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
 
-/* Grid View */
+.logo span {
+    color: var(--accent);
+}
+
+#view-title {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- Home Grid (Cards) --- */
 .grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -36,50 +70,159 @@ header {
 }
 
 .alg-tile {
-    background: var(--tile);
+    background: var(--surface);
     padding: 30px;
-    border-radius: 12px;
+    border-radius: 16px;
     border: 1px solid var(--border);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
 }
 
 .alg-tile:hover {
+    background: var(--surface-hover);
     border-color: var(--accent);
     transform: translateY(-5px);
-    background: #1a1a1a;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px var(--accent-glow);
 }
 
-.tile-top { font-size: 0.6rem; color: var(--accent); font-weight: 700; margin-bottom: 10px; }
-.alg-tile h2 { margin: 0; font-size: 2rem; }
-.alg-tile p { color: var(--muted); font-size: 0.9rem; margin-top: 5px; }
-.alg-tile.inactive { opacity: 0.4; cursor: default; }
+.tile-top {
+    font-size: 0.7rem;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 10px;
+}
 
-/* Set View (Full List) */
-.hidden { display: none; }
+.alg-tile h2 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.alg-tile p {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+}
+
+/* --- Search & Controls --- */
+.controls-bar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    position: sticky;
+    top: 20px;
+    z-index: 100;
+}
+
 .back-btn {
-    background: transparent; color: var(--accent); border: none;
-    cursor: pointer; font-weight: 600; margin-bottom: 30px;
+    background: var(--surface);
+    color: white;
+    border: 1px solid var(--border);
+    padding: 0 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
 }
 
-.full-list { display: flex; flex-direction: column; gap: 15px; }
+#search-input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 15px 20px;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
 
+#search-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+/* --- Algorithm Rows --- */
 .alg-row {
     display: grid;
-    grid-template-columns: 120px 1fr 1fr;
-    background: var(--tile);
+    grid-template-columns: 100px 1fr 120px;
+    background: var(--surface);
+    margin-bottom: 12px;
     padding: 20px;
-    border-radius: 8px;
-    align-items: center;
+    border-radius: 16px;
     border: 1px solid var(--border);
+    align-items: center;
+    gap: 25px;
 }
 
-.alg-name { font-weight: 800; color: var(--accent); }
-.alg-moves { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; }
-.alg-setup { font-size: 0.8rem; color: var(--muted); }
+.alg-img {
+    width: 100px;
+    height: 100px;
+    background: #000; /* Pre-loader color to stop flashing */
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
 
+.alg-img img {
+    max-width: 100%;
+    height: auto;
+}
 
+.alg-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
 
+.alg-name {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--text-main);
+}
+
+.alg-moves {
+    font-family: var(--font-mono);
+    color: var(--accent);
+    font-size: 1.1rem;
+    word-spacing: 5px;
+}
+
+.alg-setup {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+}
+
+/* --- Modern Buttons --- */
+.copy-btn {
+    background: rgba(255, 140, 0, 0.1);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.copy-btn:hover {
+    background: var(--accent);
+    color: black;
+}
+
+.hidden { display: none !important; }
+
+/* --- Mobile Fixes --- */
 @media (max-width: 768px) {
-    .alg-row { grid-template-columns: 1fr; gap: 10px; }
+    .alg-row {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .alg-img { margin: 0 auto; }
+    .copy-btn { width: 100%; }
 }
