@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Timer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <select id="event-select">
+                <option value="333">3x3x3</option>
+                <option value="222">2x2x2</option>
+                <option value="444">4x4x4</option>
+                <option value="pyram">Pyraminx</option>
+            </select>
+            <div id="scramble">Generating scramble...</div>
+        </header>
+
+        <main>
+            <div id="visualizer" class="cube-visual"></div>
+            <div id="timer">0.00</div>
+            <div class="instructions">Press Space or Touch to Start/Stop</div>
+        </main>
+
+        <aside class="stats-panel">
+            <h3>Solves</h3>
+            <div id="solve-list"></div>
+            <div class="session-stats">
+                Ao5: <span id="ao5">-</span> | Ao12: <span id="ao12">-</span>
+            </div>
+        </aside>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
