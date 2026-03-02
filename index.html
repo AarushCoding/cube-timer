@@ -3,46 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ignite Algs | All-In-One</title>
+    <title>Ignite Algs | Full Reference</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="logo" onclick="showHome()">IGNITE<span>ALGS</span></div>
-            <p id="view-title">Algorithm Library</p>
+            <div class="logo" onclick="showHome()">cube<span>.app</span></div>
+            <div class="header-right">
+                <p id="view-title">Algorithm Library</p>
+            </div>
         </header>
 
         <section id="home-view" class="grid-container">
-            <div class="alg-tile" onclick="openSet('pll')">
-                <div class="tile-top">21 CASES</div>
-                <h2>PLL</h2>
-                <p>Permutation of Last Layer</p>
+            <div class="alg-tile" onclick="openSet('f2l')">
+                <div class="tile-top">41 CASES</div>
+                <h2>F2L</h2>
+                <p>First Two Layers</p>
             </div>
             <div class="alg-tile" onclick="openSet('oll')">
                 <div class="tile-top">57 CASES</div>
                 <h2>OLL</h2>
                 <p>Orientation of Last Layer</p>
             </div>
-            <div class="alg-tile" onclick="openSet('f2l')">
-                <div class="tile-top">41 CASES</div>
-                <h2>F2L</h2>
-                <p>First Two Layers</p>
+            <div class="alg-tile" onclick="openSet('pll')">
+                <div class="tile-top">21 CASES</div>
+                <h2>PLL</h2>
+                <p>Permutation of Last Layer</p>
             </div>
-            <div class="alg-tile inactive">
-                <div class="tile-top">COMING SOON</div>
-                <h2>COLL</h2>
-                <p>Corners & Orientation</p>
+            <div class="alg-tile" onclick="openSet('beginner_oll')">
+                <div class="tile-top">7 CASES</div>
+                <h2>B-OLL</h2>
+                <p>2-Look Orientation</p>
+            </div>
+            <div class="alg-tile" onclick="openSet('beginner_pll')">
+                <div class="tile-top">6 CASES</div>
+                <h2>B-PLL</h2>
+                <p>2-Look Permutation</p>
             </div>
         </section>
 
         <section id="set-view" class="hidden">
-            <button class="back-btn" onclick="showHome()">← Back to Library</button>
+            <div class="controls-bar">
+                <button class="back-btn" onclick="showHome()">← Back</button>
+                <input type="text" id="search-input" placeholder="Search by name (e.g. Sune)..." onkeyup="filterAlgs()">
+            </div>
+
             <div id="alg-full-list" class="full-list">
                 </div>
+
+            <button class="scroll-top" onclick="window.scrollTo(0,0)">↑ Top</button>
         </section>
     </div>
+
+    
 
     <script src="./script.js"></script>
 </body>
