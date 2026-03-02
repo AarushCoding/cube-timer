@@ -1,52 +1,63 @@
 let database = {};
+let isDataLoaded = false;
 
-// 1. Fetch the massive JSON file
+// 1. Fetch the JSON file
 fetch('algs.json')
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) throw new Error("Failed to load algs.json");
+        return response.json();
+    })
     .then(data => {
         database = data;
+        isDataLoaded = true;
+        console.log("Cube data loaded successfully.");
     })
-    .catch(error => console.error('Error loading algorithms:', error));
+    .catch(error => {
+        console.error('Error loading algorithms:', error);
+    });
 
 // 2. Open a specific set (F2L, OLL, etc.)
 function openSet(category) {
+    if (!isDataLoaded) return;
+
     const home = document.getElementById('home-view');
     const setView = document.getElementById('set-view');
     const list = document.getElementById('alg-full-list');
     const title = document.getElementById('view-title');
     const searchInput = document.getElementById('search-input');
 
-    // Clear search input when opening a new set
     if (searchInput) searchInput.value = '';
 
     const categoryData = database[category];
-    if (!categoryData) return;
+    
+    // FIX: We must check for categoryData.cases because the JSON structure changed
+    if (!categoryData || !categoryData.cases) {
+        console.error("Invalid category or missing 'cases' array:", category);
+        return;
+    }
 
     title.innerText = category.replace('_', ' ').toUpperCase();
     
-    // Extract the smart config
     const config = categoryData.viewConfig || "view=plan";
     const stage = categoryData.stage || "";
-    const cases = categoryData.cases;
+    const cases = categoryData.cases; // This is the actual array we need to map
 
-    // Map through the cases and build the HTML
+    // 3. Map through the 'cases' array
     list.innerHTML = cases.map(item => {
-        // Build the VisualCube API URL
-        // stage=f2l or stage=oll highlights the relevant pieces
         const cubeParams = `fmt=svg&size=150&bg=t&sch=black,white,orange,red,green,blue&stage=${stage}&${config}&case=${encodeURIComponent(item.setup)}`;
         const cubeUrl = `http://visualcube.hk/visualcube.php?${cubeParams}`;
 
         return `
             <div class="alg-row" data-name="${item.name.toLowerCase()}">
                 <div class="alg-img">
-                    <img src="${cubeUrl}" alt="${item.name}" loading="lazy">
+                    <img src="${cubeUrl}" alt="${item.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Cube'">
                 </div>
                 <div class="alg-info">
                     <div class="alg-name">${item.name}</div>
                     <div class="alg-moves">${item.alg}</div>
                     <div class="alg-setup">Setup: ${item.setup}</div>
                 </div>
-                <button class="copy-btn" onclick="copyToClipboard('${item.alg}')">Copy</button>
+                <button class="copy-btn" onclick="copyToClipboard('${item.alg.replace(/'/g, "\\'")}')">Copy</button>
             </div>
         `;
     }).join("");
@@ -56,22 +67,18 @@ function openSet(category) {
     window.scrollTo(0, 0);
 }
 
-// 3. Search / Filter Logic
+// 4. Search / Filter Logic
 function filterAlgs() {
     const query = document.getElementById('search-input').value.toLowerCase();
     const rows = document.querySelectorAll('.alg-row');
 
     rows.forEach(row => {
         const name = row.getAttribute('data-name');
-        if (name.includes(query)) {
-            row.style.display = 'grid';
-        } else {
-            row.style.display = 'none';
-        }
+        row.style.display = name.includes(query) ? 'grid' : 'none';
     });
 }
 
-// 4. Utility Functions
+// 5. Navigation & Utils
 function showHome() {
     document.getElementById('home-view').classList.remove('hidden');
     document.getElementById('set-view').classList.add('hidden');
@@ -80,6 +87,10 @@ function showHome() {
 
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
-        alert('Algorithm copied!');
+        // Find the button that was clicked using the event
+        const btn = window.event.target;
+        const originalText = btn.innerText;
+        btn.innerText = "Saved!";
+        setTimeout(() => { btn.innerText = originalText; }, 1500);
     });
 }
